@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Apache Webserver on Ubuntu VM",
+  "description": "This template uses the Azure Linux CustomScript extension to deploy Cloud66. The deployment template creates an Ubuntu VM, installs Cloud66.",
+  "summary": "Deploy an Ubuntu VM with Cloud66",
+  "githubUsername": "pharmpress",
+  "dateUpdated": "2016-08-22"
+}

@@ -37,6 +37,12 @@
         "15.10",
         "16.04.0-LTS"
       ]
+    },
+    "registerScriptURL": {
+      "type": "string",
+      "metadata": {
+        "description": "Cloud66 register script URL."
+      }
     }
   },
   "variables": {

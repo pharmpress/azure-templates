@@ -43,6 +43,12 @@
       "metadata": {
         "description": "Cloud66 register script URL."
       }
+    },
+    "availabilitySet": {
+      "type": "string",
+      "metadata": {
+        "description": "Availability set"
+      }
     }
   },
   "variables": {
@@ -130,6 +136,16 @@
             }
           }
         ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[parameters('availabilitySet')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "platformFaultDomainCount": "3",
+        "platformUpdateDomainCount": "20"
       }
     },
     {

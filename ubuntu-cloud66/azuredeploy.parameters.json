@@ -16,6 +16,9 @@
     },
     "registerScriptURL": {
       "value": "GEN-UNIQUE"
+    },
+    "availabilitySet": {
+      "value": "GEN-UNIQUE"
     }
   }
 }

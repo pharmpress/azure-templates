@@ -145,7 +145,7 @@
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
-        "AvailabilitySet" : {
+        "availabilitySet" : {
           "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
         },
         "storageProfile": {

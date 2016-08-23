@@ -183,7 +183,7 @@
           }
         },
         "availabilitySet": {
-          "id": "[parameters('availabilitySet')]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',parameters('availabilitySet'))]"
         },
         "networkProfile": {
           "networkInterfaces": [

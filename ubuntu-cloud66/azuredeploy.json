@@ -157,7 +157,7 @@
           "adminPassword": "[parameters('adminPassword')]"
         },
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySet'))]"
+          "id": "[parameters('availabilitySet')]"
         },
         "storageProfile": {
           "imageReference": {

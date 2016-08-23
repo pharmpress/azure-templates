@@ -182,6 +182,9 @@
             "createOption": "FromImage"
           }
         },
+        "availabilitySet": {
+          "id": "[parameters('availabilitySet')]"
+        },
         "networkProfile": {
           "networkInterfaces": [
             {

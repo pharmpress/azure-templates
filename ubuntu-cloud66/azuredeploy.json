@@ -139,9 +139,6 @@
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
         },
-        "osProfile": {
-          "computerName": "[parameters('vmName')]"
-        },
         "availabilitySet": {
           "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySet'))]"
         },

@@ -8,22 +8,10 @@
         "description": "Unique DNS Name for the Storage Account where the Virtual Machine's disks will be placed."
       }
     },
-    "adminUsername": {
+    "vmName": {
       "type": "string",
       "metadata": {
-        "description": "User name for the Virtual Machine."
-      }
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for the Virtual Machine."
-      }
-    },
-    "dnsNameForPublicIP": {
-      "type": "string",
-      "metadata": {
-        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+        "description": "Virtual Machine name"
       }
     },
     "ubuntuOSVersion": {
@@ -55,19 +43,19 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "OSDiskName": "osdiskforlinuxsimple",
-    "nicName": "myVMNic",
+    "nicName": "[concat(parameters('vmName'), 'nic')]",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.0.0.0/24",
     "storageAccountType": "Standard_LRS",
-    "publicIPAddressName": "myPublicIP",
+    "publicIPAddressName": "[concat(parameters('vmName'), 'ip')]",
     "publicIPAddressType": "Dynamic",
-    "vmStorageAccountContainerName": "vhds",
-    "vmName": "MyUbuntuVM",
+    "vmStorageAccountContainerName": "[concat(parameters('vmName'), 'vhds')]",
     "vmSize": "Standard_A0",
-    "virtualNetworkName": "MyVNET",
+    "virtualNetworkName": "Cloud66Net",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]"
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "dnsNameForPublicIP": "[parameters('vmName')]"
   },
   "resources": [
     {
@@ -87,7 +75,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsNameForPublicIP')]"
+          "domainNameLabel": "[variables('dnsNameForPublicIP')]"
         }
       }
     },
@@ -141,7 +129,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
+      "name": "[parameters('vmName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
@@ -152,12 +140,10 @@
           "vmSize": "[variables('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[variables('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
+          "computerName": "[parameters('vmName')]"
         },
         "availabilitySet": {
-          "id": "[parameters('availabilitySet')]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySet'))]"
         },
         "storageProfile": {
           "imageReference": {
@@ -186,11 +172,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/newuserscript')]",
+      "name": "[concat(parameters('vmName'),'/newuserscript')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
@@ -199,7 +185,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "[parameters('registerScriptURL')]"
+            "[concat('https://app.cloud66.com/server/', parameters('registerScriptURL'), '/register_script.sh')]"
           ],
           "commandToExecute": "bash register_script.sh"
         }

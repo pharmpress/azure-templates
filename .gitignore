@@ -2,3 +2,4 @@
 .idea/
 /*.pem
 log/
+/ubuntu-cloud66/generated.json

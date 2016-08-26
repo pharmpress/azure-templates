@@ -3,18 +3,15 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "newStorageAccountName": {
-      "value": "GEN-UNIQUE-8"
+      "value": "genunique8"
     },
-    "adminUsername": {
-      "value": "ubuntu"
+    "vmName": {
+      "value": "genunique"
     },
-    "adminPassword": {
-      "value": "GEN-PASSWORD"
-    },
-    "dnsNameForPublicIP": {
+    "dataDiskSize": {
       "value": "GEN-UNIQUE"
     },
-    "registerScriptURL": {
+    "registerScriptID": {
       "value": "GEN-UNIQUE"
     },
     "availabilitySet": {

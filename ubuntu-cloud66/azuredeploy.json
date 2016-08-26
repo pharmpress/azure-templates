@@ -14,6 +14,12 @@
         "description": "Virtual Machine name"
       }
     },
+    "dataDiskSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Data disk size"
+      }
+    },
     "ubuntuOSVersion": {
       "type": "string",
       "defaultValue": "14.04.4-LTS",
@@ -43,6 +49,7 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "OSDiskName": "osdiskforlinuxsimple",
+    "DataDiskName": "datadiskforlinuxsimple",
     "nicName": "[concat(parameters('vmName'), 'nic')]",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
@@ -161,7 +168,19 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [
+            {
+              "name": "datadisk1",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('DataDiskName'), '1','.vhd')]"
+              },
+              "caching": "None",
+              "createOption": "Empty"
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [

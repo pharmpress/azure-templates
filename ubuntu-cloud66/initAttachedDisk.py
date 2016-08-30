@@ -83,7 +83,7 @@ else:
 
     if len(parts) == 0:
         print("Create partition and format")
-        run("parted {0} mkpart primary 0% 100%".format(device))
+        run("parted {0} mklabel msdos mkpart primary 0% 100%".format(device))
         run("mkfs." + fs + " " + partition + " -F")
 
     existingFS = run_get_output("sfdisk -q -c " + device + " 1", chk_err=False)[1].rstrip()

@@ -67,11 +67,12 @@ else:
 
     # Check partition type
     ret = run_get_output("parted {0} print".format(device))
-    if ret[0] != 0:
-        print("Error getting partions")
-        exit(1)
-    # Get partitions.
-    parts = filter(lambda x: re.match("^\s*[0-9]+", x), ret[1].split("\n"))
+
+    if ret[0] == 0:
+        # Get partitions.
+        parts = filter(lambda x: re.match("^\s*[0-9]+", x), ret[1].split("\n"))
+    else:
+        parts = []
 
     # If there are more than 1 partitions, remove all partitions
     # and create a new one using the entire disk space.

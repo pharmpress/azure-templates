@@ -206,9 +206,10 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
+            "https://raw.githubusercontent.com/pharmpress/azure-templates/master/ubuntu-cloud66/initAttachedDisk.py",
             "[concat('https://app.cloud66.com/server/', parameters('registerScriptID'), '/register_script.sh')]"
           ],
-          "commandToExecute": "bash register_script.sh"
+          "commandToExecute": "/bin/sh -c 'python initAttachedDisk.py ; bash register_script.sh'"
         }
       }
     }

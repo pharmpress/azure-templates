@@ -55,6 +55,38 @@ def create_dir(dir_path, user, mode):
     change_owner(dir_path, user)
 
 
+def get_file_contents(filepath, as_binary=False):
+    mode = 'r'
+    if as_binary:
+        mode += 'b'
+    try:
+        with open(filepath, mode) as F:
+            c = F.read()
+    except IOError, e:
+        print('GetFileContents: Reading from file ' + filepath + ' Exception is ' + str(e))
+        return None
+    return c
+
+
+def append_file_contents(filepath, contents):
+    if type(contents) == str:
+        contents = contents.encode('latin-1')
+    try:
+        with open(filepath, "a+") as F:
+            F.write(contents)
+    except IOError, e:
+        print('AppendFileContents: Appending to file ' + filepath + ' Exception is ' + str(e))
+        return None
+    return 0
+
+
+def find_device_in_fstab(a_device):
+    for line in get_file_contents("/etc/fstab").split('\n'):
+        if line.find(a_device) != -1:
+            return line
+    return None
+
+
 device = "/dev/sdc"
 mount_point = "/mnt/data"
 fs = "ext3"
@@ -90,6 +122,9 @@ else:
     if existingFS == "7":
         run("sfdisk -c " + device + " 1 83")
         run("mkfs." + fs + " " + partition)
+
+    if not find_device_in_fstab(device):
+        append_file_contents("/etc/fstab", partition + "\t" + mount_point + "\tauto\tdefaults,nobootwait,comment=cloudconfig\t0\t2\n")
 
     if run("mount " + partition + " " + mount_point, chk_err=False):
         # If mount failed, try to format the partition and mount again

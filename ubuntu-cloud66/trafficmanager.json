@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "uniqueDnsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Relative DNS name for the traffic manager profile, resulting FQDN will be <uniqueDnsName>.trafficmanager.net, must be globally unique."
+      }
+    }
+  },
+  "variables": {
+    "tmApiVersion": "2015-11-01"
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('tmApiVersion')]",
+      "type": "Microsoft.Network/trafficManagerProfiles",
+      "name": "[parameters('uniqueDnsName')]",
+      "location": "global",
+      "properties": {
+        "profileStatus": "Enabled",
+        "trafficRoutingMethod": "Performance",
+        "dnsConfig": {
+          "relativeName": "[parameters('uniqueDnsName')]",
+          "ttl": 30
+        },
+        "monitorConfig": {
+          "protocol": "https",
+          "port": 443,
+          "path": "/"
+        },
+        "endpoints": [
+          {
+            "name": "endpoint0",
+            "type": "Microsoft.Network/TrafficManagerProfiles/AzureEndpoints",
+            "properties": {
+              "targetResourceId": "[resourceId('Microsoft.Network/publicIPAddresses','rpsubuntu0ip')]",
+              "target": "rpsubuntu0.northeurope.cloudapp.azure.com",
+              "endpointLocation": "[resourceGroup().location]"
+            }
+          },
+          {
+            "name": "endpoint1",
+            "type": "Microsoft.Network/TrafficManagerProfiles/AzureEndpoints",
+            "properties": {
+              "targetResourceId": "[resourceId('Microsoft.Network/publicIPAddresses','rpsubuntu1ip')]",
+              "target": "rpsubuntu1.northeurope.cloudapp.azure.com",
+              "endpointLocation": "[resourceGroup().location]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

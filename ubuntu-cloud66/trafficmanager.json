@@ -10,24 +10,46 @@
     }
   },
   "variables": {
-    "tmApiVersion": "2015-11-01"
+    "tmApiVersion": "2015-11-01",
+    "groupADnsName": "rpsa",
+    "groupBDnsName": "rpsb"
   },
   "resources": [
     {
       "apiVersion": "[variables('tmApiVersion')]",
       "type": "Microsoft.Network/trafficManagerProfiles",
-      "name": "[parameters('uniqueDnsName')]",
+      "name": "[variables('groupADnsName')]",
       "location": "global",
       "properties": {
         "profileStatus": "Enabled",
         "trafficRoutingMethod": "Performance",
         "dnsConfig": {
-          "relativeName": "[parameters('uniqueDnsName')]",
+          "relativeName": "[variables('groupADnsName')]",
           "ttl": 30
         },
         "monitorConfig": {
-          "protocol": "https",
-          "port": 443,
+          "protocol": "http",
+          "port": 80,
+          "path": "/"
+        },
+        "endpoints": []
+      }
+    },
+    {
+      "apiVersion": "[variables('tmApiVersion')]",
+      "type": "Microsoft.Network/trafficManagerProfiles",
+      "name": "[variables('groupBDnsName')]",
+      "location": "global",
+      "properties": {
+        "profileStatus": "Enabled",
+        "trafficRoutingMethod": "Performance",
+        "dnsConfig": {
+          "relativeName": "[variables('groupBDnsName')]",
+          "ttl": 30
+        },
+        "monitorConfig": {
+          "protocol": "http",
+          "port": 80,
           "path": "/"
         },
         "endpoints": [
@@ -46,6 +68,50 @@
             "properties": {
               "targetResourceId": "[resourceId('Microsoft.Network/publicIPAddresses','rpsubuntu1ip')]",
               "target": "rpsubuntu1.northeurope.cloudapp.azure.com",
+              "endpointLocation": "[resourceGroup().location]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "[variables('tmApiVersion')]",
+      "type": "Microsoft.Network/trafficManagerProfiles",
+      "name": "[parameters('uniqueDnsName')]",
+      "location": "global",
+      "dependsOn": [
+        "[concat('Microsoft.Network/trafficManagerProfiles/', variables('groupADnsName'))]",
+        "[concat('Microsoft.Network/trafficManagerProfiles/', variables('groupBDnsName'))]"
+      ],
+      "properties": {
+        "profileStatus": "Enabled",
+        "trafficRoutingMethod": "Performance",
+        "dnsConfig": {
+          "relativeName": "[parameters('uniqueDnsName')]",
+          "ttl": 30
+        },
+        "monitorConfig": {
+          "protocol": "http",
+          "port": 80,
+          "path": "/"
+        },
+        "endpoints": [
+          {
+            "name": "endpointA",
+            "endpointStatus": "Disabled",
+            "type": "Microsoft.Network/TrafficManagerProfiles/nestedEndpoints",
+            "properties": {
+              "targetResourceId": "[resourceId('Microsoft.Network/TrafficManagerProfiles', variables('groupADnsName'))]",
+              "target": "[concat(variables('groupADnsName') ,'.trafficmanager.net')]",
+              "endpointLocation": "[resourceGroup().location]"
+            }
+          },
+          {
+            "name": "endpointB",
+            "type": "Microsoft.Network/TrafficManagerProfiles/nestedEndpoints",
+            "properties": {
+              "targetResourceId": "[resourceId('Microsoft.Network/TrafficManagerProfiles', variables('groupBDnsName'))]",
+              "target": "[concat(variables('groupBDnsName') ,'.trafficmanager.net')]",
               "endpointLocation": "[resourceGroup().location]"
             }
           }

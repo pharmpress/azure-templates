@@ -22,7 +22,7 @@
       "location": "global",
       "properties": {
         "profileStatus": "Enabled",
-        "trafficRoutingMethod": "Performance",
+        "trafficRoutingMethod": "Weighted",
         "dnsConfig": {
           "relativeName": "[variables('groupADnsName')]",
           "ttl": 30
@@ -42,7 +42,7 @@
       "location": "global",
       "properties": {
         "profileStatus": "Enabled",
-        "trafficRoutingMethod": "Performance",
+        "trafficRoutingMethod": "Weighted",
         "dnsConfig": {
           "relativeName": "[variables('groupBDnsName')]",
           "ttl": 30

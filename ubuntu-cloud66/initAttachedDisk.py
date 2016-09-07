@@ -88,8 +88,8 @@ def find_device_in_fstab(a_device):
 
 
 device = "/dev/sdc"
-mount_point = "/mnt/data"
-fs = "ext3"
+mount_point = "/datadrive"
+fs = "ext4"
 
 if get_mount_point(device):
     print("ActivateResourceDisk: " + device + "1 is already mounted.")

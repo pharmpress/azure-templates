@@ -58,7 +58,7 @@
     "publicIPAddressName": "[concat(parameters('vmName'), 'ip')]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "[concat(parameters('vmName'), 'vhds')]",
-    "vmSize": "Standard_A0",
+    "vmSize": "Standard_DS11_v2",
     "virtualNetworkName": "Cloud66Net",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",

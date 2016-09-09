@@ -56,7 +56,7 @@
     "subnetPrefix": "10.0.0.0/24",
     "storageAccountType": "Standard_LRS",
     "publicIPAddressName": "[concat(parameters('vmName'), 'ip')]",
-    "publicIPAddressType": "Dynamic",
+    "publicIPAddressType": "Static",
     "vmStorageAccountContainerName": "[concat(parameters('vmName'), 'vhds')]",
     "vmSize": "Standard_DS11_v2",
     "virtualNetworkName": "Cloud66Net",
@@ -79,6 +79,9 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[variables('vnetID')]"
+      ],
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
@@ -209,7 +212,7 @@
             "https://raw.githubusercontent.com/pharmpress/azure-templates/master/ubuntu-cloud66/initAttachedDisk.py",
             "[concat('https://app.cloud66.com/server/', parameters('registerScriptID'), '/register_script.sh')]"
           ],
-          "commandToExecute": "/bin/sh -c 'python initAttachedDisk.py ; bash register_script.sh'"
+          "commandToExecute": "/bin/sh -c 'python initAttachedDisk.py ; sleep 10; bash register_script.sh'"
         }
       }
     }

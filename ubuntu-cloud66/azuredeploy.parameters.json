@@ -2,20 +2,20 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-05-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "newStorageAccountName": {
-      "value": "genunique8"
-    },
     "vmName": {
-      "value": "genunique"
+      "value": "rpses0"
+    },
+    "virtualMachineSize": {
+      "value": "Standard_F2s"
     },
     "dataDiskSize": {
-      "value": "GEN-UNIQUE"
+      "value": "100"
     },
     "registerScriptID": {
-      "value": "GEN-UNIQUE"
+      "value": "6653f922f822058539d3b300480b0e94"
     },
     "availabilitySet": {
-      "value": "GEN-UNIQUE"
+      "value": "cloud66rpses"
     }
   }
 }

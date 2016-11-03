@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "northeurope"
+        },
+        "virtualMachineName": {
+            "value": "rpses0"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_F2s"
+        },
+        "adminUsername": {
+            "value": "core"
+        },
+        "storageAccountName": {
+            "value": "rpsesmachines"
+        },
+        "virtualNetworkName": {
+            "value": "Cloud66Net"
+        },
+        "networkInterfaceName": {
+            "value": "rpses0629"
+        },
+        "networkSecurityGroupName": {
+            "value": "rpses-nsg"
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "availabilitySetName": {
+            "value": "rpses"
+        },
+        "availabilitySetPlatformFaultDomainCount": {
+            "value": "3"
+        },
+        "availabilitySetPlatformUpdateDomainCount": {
+            "value": "5"
+        },
+        "storageAccountType": {
+            "value": "Premium_LRS"
+        },
+        "subnetName": {
+            "value": "Subnet"
+        },
+        "publicIpAddressName": {
+            "value": "rpses0-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        }
+    }
+}

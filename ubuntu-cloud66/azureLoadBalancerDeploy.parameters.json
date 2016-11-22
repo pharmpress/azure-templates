@@ -3,19 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "vmName": {
-      "value": "rpsubuntu3"
+      "value": "rpsubuntulba"
     },
     "virtualMachineSize": {
-      "value": "Standard_DS11_v2"
-    },
-    "dataDiskSize": {
-      "value": "100"
+      "value": "Standard_A2_v2"
     },
     "registerScriptID": {
       "value": "6653f922f822058539d3b300480b0e94"
-    },
-    "availabilitySet": {
-      "value": "cloud66rpsa"
     }
   }
 }
